@@ -25,6 +25,10 @@
     individual fields.
 [ ] touch() and touched, also check
     for collections.
+[ ] reset validation for specific
+    fields only.
+[ ] easily get which fields are
+    required so we can show *
             </pre>
         </div>
 
