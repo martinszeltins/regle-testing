@@ -27,7 +27,7 @@
     for collections.
 [ ] reset validation for specific
     fields only.
-[ ] easily get which fields are
+[x] easily get which fields are
     required so we can show *
             </pre>
         </div>
@@ -39,7 +39,11 @@
 
             <!-- Shipment Reference Number -->
             <div class="mt-4 flex flex-col gap-2">
-                <label class="font-medium uppercase text-xs text-gray-700">Shipment Reference Number</label>
+                <div class="flex gap-2">
+                    <label class="font-medium uppercase text-xs text-gray-700">Shipment Reference Number</label>
+                    <span class="text-red-600 relative -top-1" v-if="r$.$fields.referenceNumber.$rules.required.$active">*</span>
+                </div>
+
                 <input v-model="form.referenceNumber" type="text" class="w-1/2 ring-1 ring-gray-300 rounded outline-none p-2" />
 
                 <FieldError :errors="r$.$errors.referenceNumber" />
@@ -55,19 +59,31 @@
 
                 <div class="grid grid-cols-2 gap-x-6 gap-y-4">
                     <div class="flex flex-col gap-2">
-                        <label class="font-medium uppercase text-xs text-gray-700">Item Name</label>
+                        <div class="flex gap-1">
+                            <label class="font-medium uppercase text-xs text-gray-700">Item Name</label>
+                            <span class="text-red-600 relative -top-1" v-if="r$.$fields.shipmentItems.$each[index].$fields.name.$rules.required.$active">*</span>
+                        </div>
+
                         <input v-model="form.shipmentItems[index].name" type="text" class="ring-1 ring-gray-300 rounded outline-none p-2" />
                         <FieldError :errors="r$.$errors.shipmentItems.$each[index].name" />
                     </div>
     
                     <div class="flex flex-col gap-2">
-                        <label class="font-medium uppercase text-xs text-gray-700">Quantity</label>
+                        <div class="flex gap-1">
+                            <label class="font-medium uppercase text-xs text-gray-700">Quantity</label>
+                            <span class="text-red-600 relative -top-1" v-if="r$.$fields.shipmentItems.$each[index].$fields.quantity.$rules.required.$active">*</span>
+                        </div>
+
                         <input v-model="form.shipmentItems[index].quantity" type="number" class="ring-1 ring-gray-300 rounded outline-none p-2" />
                         <FieldError :errors="r$.$errors.shipmentItems.$each[index].quantity" />
                     </div>
     
                     <div class="flex flex-col gap-2">
-                        <label class="font-medium uppercase text-xs text-gray-700">Weight</label>
+                        <div class="flex gap-1">
+                            <label class="font-medium uppercase text-xs text-gray-700">Weight</label>
+                            <span class="text-red-600 relative -top-1" v-if="r$.$fields.shipmentItems.$each[index].$fields.weight.$rules.required.$active">*</span>
+                        </div>
+                        
                         <input v-model="form.shipmentItems[index].weight" type="number" class="ring-1 ring-gray-300 rounded outline-none p-2" />
                         <FieldError :errors="r$.$errors.shipmentItems.$each[index].weight" />
                     </div>
@@ -102,13 +118,13 @@
 
     const { r$ } = useRegle(form, {
         referenceNumber: {
-            required,
+            required: applyIf(someCondition, required),
             minLength: applyIf(someCondition, minLength(5))
         },
         shipmentItems: {
             $each: {
                 name: {
-                    required,
+                    required: applyIf(someCondition, required),
                     minLength: applyIf(someCondition, minLength(3))
                 },
                 quantity: {
