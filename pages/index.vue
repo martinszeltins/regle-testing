@@ -29,6 +29,8 @@
     fields only.
 [x] easily get which fields are
     required so we can show *
+[ ] Test if we can access parent
+    fields in validation rule.
             </pre>
         </div>
 
@@ -41,7 +43,7 @@
             <div class="mt-4 flex flex-col gap-2">
                 <div class="flex gap-2">
                     <label class="font-medium uppercase text-xs text-gray-700">Shipment Reference Number</label>
-                    <span class="text-red-600 relative -top-1" v-if="r$.$fields.referenceNumber.$rules.required.$active">*</span>
+                    <span class="text-red-600 relative -top-1" v-if="r$.$fields.referenceNumber.$isRequired">*</span>
                 </div>
 
                 <input v-model="form.referenceNumber" type="text" class="w-1/2 ring-1 ring-gray-300 rounded outline-none p-2" />
@@ -61,7 +63,7 @@
                     <div class="flex flex-col gap-2">
                         <div class="flex gap-1">
                             <label class="font-medium uppercase text-xs text-gray-700">Item Name</label>
-                            <span class="text-red-600 relative -top-1" v-if="r$.$fields.shipmentItems.$each[index].$fields.name.$rules.required.$active">*</span>
+                            <span class="text-red-600 relative -top-1" v-if="r$.$fields.shipmentItems.$each[index].$fields.name.$isRequired">*</span>
                         </div>
 
                         <input v-model="form.shipmentItems[index].name" type="text" class="ring-1 ring-gray-300 rounded outline-none p-2" />
@@ -71,7 +73,7 @@
                     <div class="flex flex-col gap-2">
                         <div class="flex gap-1">
                             <label class="font-medium uppercase text-xs text-gray-700">Quantity</label>
-                            <span class="text-red-600 relative -top-1" v-if="r$.$fields.shipmentItems.$each[index].$fields.quantity.$rules.required.$active">*</span>
+                            <span class="text-red-600 relative -top-1" v-if="r$.$fields.shipmentItems.$each[index].$fields.quantity.$isRequired">*</span>
                         </div>
 
                         <input v-model="form.shipmentItems[index].quantity" type="number" class="ring-1 ring-gray-300 rounded outline-none p-2" />
@@ -81,7 +83,7 @@
                     <div class="flex flex-col gap-2">
                         <div class="flex gap-1">
                             <label class="font-medium uppercase text-xs text-gray-700">Weight</label>
-                            <span class="text-red-600 relative -top-1" v-if="r$.$fields.shipmentItems.$each[index].$fields.weight.$rules.required.$active">*</span>
+                            <span class="text-red-600 relative -top-1" v-if="r$.$fields.shipmentItems.$each[index].$fields.weight.$isRequired">*</span>
                         </div>
                         
                         <input v-model="form.shipmentItems[index].weight" type="number" class="ring-1 ring-gray-300 rounded outline-none p-2" />
@@ -103,10 +105,10 @@
 </template>
 
 <script setup lang="ts">
-    import { useRegle } from '@regle/core'
+    import { defineRegleConfig } from '@regle/core'
     import { required, minLength, minValue, applyIf } from '@regle/rules'
 
-    const someCondition = ref(false)
+    const someCondition = ref(true)
 
     const form = ref({
         referenceNumber: '',
@@ -114,6 +116,14 @@
             { name: '', quantity: 0, weight: 0 },
             { name: '', quantity: 0, weight: 0 }
         ]
+    })
+
+    const { useRegle } = defineRegleConfig({
+        shortcuts: {
+            fields: {
+                $isRequired: (field) => !!field.$rules.required?.$active
+            }
+        }
     })
 
     const { r$ } = useRegle(form, {
@@ -128,7 +138,6 @@
                     minLength: applyIf(someCondition, minLength(3))
                 },
                 quantity: {
-                    required,
                     minValue: minValue(1)
                 },
                 weight: {

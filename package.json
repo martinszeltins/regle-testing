@@ -11,8 +11,8 @@
   },
   "dependencies": {
     "@nuxtjs/tailwindcss": "^6.12.2",
-    "@regle/core": "^0.2.3",
-    "@regle/rules": "^0.2.3",
+    "@regle/core": "0.2.5",
+    "@regle/rules": "0.2.5",
     "@vueuse/core": "^11.3.0",
     "@vueuse/nuxt": "^11.3.0",
     "nuxt": "^3.14.1592",

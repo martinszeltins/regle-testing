@@ -12,11 +12,11 @@ dependencies:
     specifier: ^6.12.2
     version: 6.12.2(rollup@4.27.4)
   '@regle/core':
-    specifier: ^0.2.3
-    version: 0.2.3(vue@3.5.13)
+    specifier: 0.2.5
+    version: 0.2.5(vue@3.5.13)
   '@regle/rules':
-    specifier: ^0.2.3
-    version: 0.2.3(vue@3.5.13)
+    specifier: 0.2.5
+    version: 0.2.5(vue@3.5.13)
   '@vueuse/core':
     specifier: ^11.3.0
     version: 11.3.0(vue@3.5.13)
@@ -1535,18 +1535,18 @@ packages:
       - supports-color
     dev: false
 
-  /@regle/core@0.2.3(vue@3.5.13):
-    resolution: {integrity: sha512-BN1tSgr3qOPiDu6nGWRgooiYniawPiCU9J8iS2GpvoOGp0TXUTwdmONv4iSDi9fNZYHTbJ8m8MtMN/1q8JWLNg==}
+  /@regle/core@0.2.5(vue@3.5.13):
+    resolution: {integrity: sha512-DLPPlrMZ9YuVDu6ECIOMehAJHPtnOkP11mWhYFaZzaYg/YJB44kNeeKH29fdEeQms2mxeTbITrxKO/tQJOgIrA==}
     peerDependencies:
       vue: ^3.1.0
     dependencies:
       vue: 3.5.13(typescript@5.7.2)
     dev: false
 
-  /@regle/rules@0.2.3(vue@3.5.13):
-    resolution: {integrity: sha512-6baJCb357pTCZ2DN6BOXdNn8x/xMIfs9+snKROWp1GH28icpq2NYwBBSsQIRwzweV7Ej4DjYWjtVe8jrVBnT0A==}
+  /@regle/rules@0.2.5(vue@3.5.13):
+    resolution: {integrity: sha512-Oh8oF5CVCZDV+IH0CIfV2aQUiZC+0DvlTcl3iKaAASv/zgK2XVh3a6skfclyk5pPctURLhpFHQDst79S0izB0A==}
     dependencies:
-      '@regle/core': 0.2.3(vue@3.5.13)
+      '@regle/core': 0.2.5(vue@3.5.13)
     transitivePeerDependencies:
       - vue
     dev: false
