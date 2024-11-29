@@ -2,5 +2,6 @@
     "welcome": "¡Bienvenido!",
     "sign_in": "Iniciar sesión",
     "e_mail": "Correo electrónico",
-    "password": "Contraseña"
+    "password": "Contraseña",
+    "no_good": "############# No buenooo!!!!!!!!!!!, {name}"
 }

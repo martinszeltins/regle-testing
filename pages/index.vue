@@ -7,9 +7,9 @@
         <div class="fixed top-5 left-5 bg-gray-200 border border-gray-400 w-[330px] overflow-hidden text-sm p-4 rounded">
             <pre>
 [ ] Backend validation, rule
-    parsing
+    parsing (!)
 [x] Conditional rules
-[ ] Dynamic, custom error messages
+[x] Dynamic, custom error messages
     with i18n, (minWeight example)
     from LiPO.
 [ ] No frontend rule, only backend
@@ -31,6 +31,8 @@
     required so we can show *
 [ ] Test if we can access parent
     fields in validation rule.
+[ ] Swap all rules with another
+    set of rules.
             </pre>
         </div>
 
@@ -61,7 +63,7 @@
 
                 <div class="grid grid-cols-2 gap-x-6 gap-y-4">
                     <div class="flex flex-col gap-2">
-                        <div class="flex gap-1">
+                        <div class="flex gap-1">    
                             <label class="font-medium uppercase text-xs text-gray-700">Item Name</label>
                             <span class="text-red-600 relative -top-1" v-if="r$.$fields.shipmentItems.$each[index].$fields.name.$isRequired">*</span>
                         </div>
@@ -100,15 +102,36 @@
             <button @click="someCondition = !someCondition" class="ml-2 bg-gray-500 text-white px-10 py-3 rounded mt-6 hover:bg-gray-600 transition">
                 Toggle Condition: {{ someCondition ? 'ON' : 'OFF' }}
             </button>
+
+            <button @click="someNumber++" class="ml-2 bg-gray-500 text-white px-10 py-3 rounded mt-6 hover:bg-gray-600 transition">
+                Some Number: {{ someNumber }}
+            </button>
+
+            <button @click="toggleLocale" class="ml-2 bg-gray-500 text-white px-10 py-3 rounded mt-6 hover:bg-gray-600 transition">
+                Toggle Locale
+            </button>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
     import { defineRegleConfig } from '@regle/core'
-    import { required, minLength, minValue, applyIf } from '@regle/rules'
+    import type { RegleExternalErrorTree } from '@regle/core'
+    import { required, minLength, minValue, applyIf, withMessage } from '@regle/rules'
+
+    const { t, locale, setLocale } = useI18n()
 
     const someCondition = ref(true)
+    const someNumber = ref(4)
+
+    interface Form {
+        referenceNumber: string
+        shipmentItems: {
+            name: string
+            quantity: number
+            weight: number
+        }[]
+    }
 
     const form = ref({
         referenceNumber: '',
@@ -116,6 +139,17 @@
             { name: '', quantity: 0, weight: 0 },
             { name: '', quantity: 0, weight: 0 }
         ]
+    })
+
+    const externalErrors = ref<RegleExternalErrorTree<Form>>({
+        referenceNumber: ['Backend says reference number is invalid'],
+        shipmentItems: {
+            $each: [
+                {
+                    name: ['Backend says shipmentItem[0].name is invalid'],
+                },
+            ],
+        }
     })
 
     const { useRegle } = defineRegleConfig({
@@ -126,24 +160,39 @@
         }
     })
 
-    const { r$ } = useRegle(form, {
-        referenceNumber: {
-            required: applyIf(someCondition, required),
-            minLength: applyIf(someCondition, minLength(5))
-        },
-        shipmentItems: {
-            $each: {
-                name: {
-                    required: applyIf(someCondition, required),
-                    minLength: applyIf(someCondition, minLength(3))
-                },
-                quantity: {
-                    minValue: minValue(1)
-                },
-                weight: {
-                    required
+    const minWeightRule = () => 
+        withMessage(
+            value => Number(value) >= someNumber.value && someCondition.value === true,
+            t('no_good', { name: someNumber.value })
+        )
+
+    const rules = computed(() => {
+        return {
+            referenceNumber: {
+                required: applyIf(someCondition, required),
+                minLength: applyIf(someCondition, minLength(5))
+            },
+            shipmentItems: {
+                $each: {
+                    name: {
+                        minWeight: minWeightRule(),
+                        required: applyIf(someCondition, required),
+                        minLength: applyIf(someCondition, minLength(3))
+                    },
+                    quantity: {
+                        minValue: minValue(1)
+                    },
+                    weight: {
+                        required
+                    }
                 }
             }
         }
     })
+
+    const { r$ } = useRegle(form, rules, { lazy: false, externalErrors })
+
+    const toggleLocale = () => {
+        setLocale(locale.value === 'en' ? locale.value = 'es' : locale.value = 'en')
+    }
 </script>
