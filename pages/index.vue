@@ -13,8 +13,8 @@
     with i18n, (minWeight example)
     from LiPO.
 [ ] No frontend rule, only backend
-    rule (does it work?)
-[ ] Easy, custom rules with custom
+    rule (does it work?) (!)
+[x] Easy, custom rules with custom
     message
 [ ] Get dirty fields
 [ ] Collections (!)
@@ -110,6 +110,14 @@
             <button @click="toggleLocale" class="ml-2 bg-gray-500 text-white px-10 py-3 rounded mt-6 hover:bg-gray-600 transition">
                 Toggle Locale
             </button>
+
+            <button @click="getDirtyFields" class="ml-2 bg-gray-500 text-white px-10 py-3 rounded mt-6 hover:bg-gray-600 transition">
+                Get Dirty Fields
+            </button>
+
+            <button @click="addShipmentItem" class="ml-2 bg-gray-500 text-white px-10 py-3 rounded mt-6 hover:bg-gray-600 transition">
+                Add Shipment Item
+            </button>
         </div>
     </div>
 </template>
@@ -129,11 +137,11 @@
         shipmentItems: {
             name: string
             quantity: number
-            weight: number
+            weight: number | string
         }[]
     }
 
-    const form = ref({
+    const form = ref<Form>({
         referenceNumber: '',
         shipmentItems: [
             { name: '', quantity: 0, weight: 0 },
@@ -194,5 +202,13 @@
 
     const toggleLocale = () => {
         setLocale(locale.value === 'en' ? locale.value = 'es' : locale.value = 'en')
+    }
+
+    const addShipmentItem = () => {
+        form.value.shipmentItems.push({ name: '', quantity: 1, weight: '' })
+    }
+
+    const getDirtyFields = () => {
+        console.log(r$.$extractDirtyFields())
     }
 </script>
