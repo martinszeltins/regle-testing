@@ -33,6 +33,11 @@
     fields in validation rule.
 [ ] Swap all rules with another
     set of rules.
+[ ] Backend message appears on first
+    validation() call. But if we
+    call reset and then validate()
+    again, the backend message
+    does not show up.
             </pre>
         </div>
 
@@ -118,6 +123,10 @@
             <button @click="addShipmentItem" class="ml-2 bg-gray-500 text-white px-10 py-3 rounded mt-6 hover:bg-gray-600 transition">
                 Add Shipment Item
             </button>
+
+            <button @click="resetValidation" class="ml-2 bg-gray-500 text-white px-10 py-3 rounded mt-6 hover:bg-gray-600 transition">
+                Reset Validation
+            </button>
         </div>
     </div>
 </template>
@@ -198,7 +207,7 @@
         }
     })
 
-    const { r$ } = useRegle(form, rules, { externalErrors, autoDirty: true  })
+    const { r$ } = useRegle(form, rules, { externalErrors, autoDirty: false  })
 
     const toggleLocale = () => {
         setLocale(locale.value === 'en' ? locale.value = 'es' : locale.value = 'en')
@@ -216,5 +225,9 @@
         const result = await r$.$parse()
 
         console.log('Form is valid?', result)
+    }
+
+    const resetValidation = () => {
+        r$.$reset()
     }
 </script>
