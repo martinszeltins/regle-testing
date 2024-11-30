@@ -7,7 +7,8 @@
         <div class="fixed top-5 left-5 bg-gray-200 border border-gray-400 w-[330px] overflow-hidden text-sm p-4 rounded">
             <pre>
 [ ] Backend validation, rule
-    parsing (!)
+    parsing (!) - (backend errors
+    dont get added)
 [x] Conditional rules
 [x] Dynamic, custom error messages
     with i18n, (minWeight example)
@@ -18,8 +19,11 @@
     message
 [x] Get dirty fields
 [x] Collections
-[ ] Live, lazy validation
+[ ] Live, lazy validation (validate
+    does not work at all)
 [ ] Resetting validation
+    (BE errors dont get added after
+    reset + validate)
 [ ] Clear backend validation
 [ ] Trigger validation for
     individual fields.
