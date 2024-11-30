@@ -16,8 +16,8 @@
     rule (does it work?) (!)
 [x] Easy, custom rules with custom
     message
-[ ] Get dirty fields
-[ ] Collections (!)
+[x] Get dirty fields
+[x] Collections
 [ ] Live, lazy validation
 [ ] Resetting validation
 [ ] Clear backend validation
@@ -95,7 +95,7 @@
             </div>
 
             <!-- Action Buttons -->
-            <button class="bg-blue-500 text-white px-10 py-3 rounded mt-6 hover:bg-blue-600 transition">
+            <button @click="validateForm" class="bg-blue-500 text-white px-10 py-3 rounded mt-6 hover:bg-blue-600 transition">
                 Save
             </button>
 
@@ -198,7 +198,7 @@
         }
     })
 
-    const { r$ } = useRegle(form, rules, { lazy: false, externalErrors })
+    const { r$ } = useRegle(form, rules, { externalErrors, autoDirty: true  })
 
     const toggleLocale = () => {
         setLocale(locale.value === 'en' ? locale.value = 'es' : locale.value = 'en')
@@ -210,5 +210,11 @@
 
     const getDirtyFields = () => {
         console.log(r$.$extractDirtyFields())
+    }
+
+    const validateForm = async () => {
+        const result = await r$.$parse()
+
+        console.log('Form is valid?', result)
     }
 </script>

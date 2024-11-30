@@ -1,9 +1,5 @@
 lockfileVersion: '6.0'
 
-settings:
-  autoInstallPeers: true
-  excludeLinksFromLockfile: false
-
 dependencies:
   '@nuxtjs/i18n':
     specifier: 8.5.2
@@ -12,11 +8,11 @@ dependencies:
     specifier: ^6.12.2
     version: 6.12.2(rollup@4.27.4)
   '@regle/core':
-    specifier: 0.2.5
-    version: 0.2.5(vue@3.5.13)
+    specifier: 0.2.6
+    version: 0.2.6(vue@3.5.13)
   '@regle/rules':
-    specifier: 0.2.5
-    version: 0.2.5(vue@3.5.13)
+    specifier: 0.2.6
+    version: 0.2.6(vue@3.5.13)
   '@vueuse/core':
     specifier: ^11.3.0
     version: 11.3.0(vue@3.5.13)
@@ -1535,18 +1531,18 @@ packages:
       - supports-color
     dev: false
 
-  /@regle/core@0.2.5(vue@3.5.13):
-    resolution: {integrity: sha512-DLPPlrMZ9YuVDu6ECIOMehAJHPtnOkP11mWhYFaZzaYg/YJB44kNeeKH29fdEeQms2mxeTbITrxKO/tQJOgIrA==}
+  /@regle/core@0.2.6(vue@3.5.13):
+    resolution: {integrity: sha512-i0l6DhvJPCbBk0ew8F2QAzjKXc4uzRyEYaOdsa5ey5jLDsiv6M2rMDHF3ypDuMsNoMYgexROw1efPhwmrMmOYw==}
     peerDependencies:
       vue: ^3.1.0
     dependencies:
       vue: 3.5.13(typescript@5.7.2)
     dev: false
 
-  /@regle/rules@0.2.5(vue@3.5.13):
-    resolution: {integrity: sha512-Oh8oF5CVCZDV+IH0CIfV2aQUiZC+0DvlTcl3iKaAASv/zgK2XVh3a6skfclyk5pPctURLhpFHQDst79S0izB0A==}
+  /@regle/rules@0.2.6(vue@3.5.13):
+    resolution: {integrity: sha512-e6+ynBiPQxpXM1fmu97X/sSn0yPwmKNvxOHLXuu20/X060c4QLiSP1Uc3bItKCVRQxhexmHJPehbdiERrjiKiA==}
     dependencies:
-      '@regle/core': 0.2.5(vue@3.5.13)
+      '@regle/core': 0.2.6(vue@3.5.13)
     transitivePeerDependencies:
       - vue
     dev: false
@@ -6718,3 +6714,7 @@ packages:
       compress-commons: 6.0.2
       readable-stream: 4.5.2
     dev: false
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
