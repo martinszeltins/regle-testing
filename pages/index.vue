@@ -46,6 +46,7 @@
 [x] Rule function pass arguments.
 [x] Clear BE errors on change.
 [x] $each: (_, index) any type!?
+[ ] Improve docs.
             </pre>
         </div>
 
