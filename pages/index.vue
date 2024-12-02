@@ -107,7 +107,7 @@
             </div>
 
             <!-- Action Buttons -->
-            <button @click="validateForm" class="bg-blue-500 text-white px-10 py-3 rounded mt-6 hover:bg-blue-600 transition">
+            <button @click="save" class="bg-blue-500 text-white px-10 py-3 rounded mt-6 hover:bg-blue-600 transition">
                 Save
             </button>
 
@@ -139,9 +139,8 @@
 </template>
 
 <script setup lang="ts">
-    import { defineRegleConfig } from '@regle/core'
-    import type { RegleExternalErrorTree } from '@regle/core'
     import { required, minLength, minValue, applyIf, withMessage, withParams } from '@regle/rules'
+    import { defineRegleConfig, type RegleComputedRules, type RegleExternalErrorTree } from '@regle/core'
 
     const { t, locale, setLocale } = useI18n()
 
@@ -165,16 +164,7 @@
         ]
     })
 
-    const externalErrors = ref<RegleExternalErrorTree<Form>>({
-        referenceNumber: ['Backend says reference number is invalid'],
-        shipmentItems: {
-            $each: [
-                {
-                    name: ['Backend says shipmentItem[0].name is invalid'],
-                },
-            ],
-        }
-    })
+    const externalErrors = ref<RegleExternalErrorTree<Form>>({})
 
     const { useRegle } = defineRegleConfig({
         shortcuts: {
@@ -186,7 +176,7 @@
 
     const minWeightRule = () => {
         return withMessage(
-            value => Number(value) >= someNumber.value && someCondition.value === true,
+            value => Number(value) >= someNumber.value && someCondition.value === false,
             t('no_good', { name: someNumber.value })
         )
     }
@@ -195,8 +185,7 @@
     const extraWeightRule = (myArg: string, index: number) => {
         return withMessage(
             withParams(value => {
-                return myArg === 'weight banana'
-                    && Number(value) > 1
+                return Number(value) > 1
                     && someCondition.value === false
             }, [someCondition]),
             t('totally_not_good', { name: myArg + index })
@@ -206,10 +195,6 @@
 
     const rules = computed(() => {
         return {
-            referenceNumber: {
-                required: applyIf(someCondition, required),
-                minLength: applyIf(someCondition, minLength(5))
-            },
             shipmentItems: {
                 $each: (_, index) => ({
                     name: {
@@ -227,7 +212,7 @@
                     }
                 })
             }
-        }
+        } satisfies RegleComputedRules<typeof form>
     })
 
     const { r$ } = useRegle(form, rules, { externalErrors, autoDirty: true  })
@@ -244,10 +229,21 @@
         console.log(r$.$extractDirtyFields())
     }
 
-    const validateForm = async () => {
+    const save = async () => {
         const result = await r$.$validate()
 
-        console.log('Form is valid?', result)
+        console.log('result of client-side validation: ', result)
+
+        externalErrors.value = {
+            referenceNumber: ['Backend says reference number is invalid'],
+            shipmentItems: {
+                $each: [
+                    {
+                        name: ['Backend says shipmentItem[0].name is invalid'],
+                    },
+                ],
+            }
+        }
     }
 
     const resetValidation = () => {
