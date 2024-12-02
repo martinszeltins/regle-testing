@@ -42,6 +42,9 @@
     call reset and then validate()
     again, the backend message
     does not show up.
+[ ] Rule function pass arguments.
+[ ] Clear BE errors on change.
+[ ] $each: (_, index) any type!?
             </pre>
         </div>
 
@@ -138,7 +141,7 @@
 <script setup lang="ts">
     import { defineRegleConfig } from '@regle/core'
     import type { RegleExternalErrorTree } from '@regle/core'
-    import { required, minLength, minValue, applyIf, withMessage } from '@regle/rules'
+    import { required, minLength, minValue, applyIf, withMessage, withParams } from '@regle/rules'
 
     const { t, locale, setLocale } = useI18n()
 
@@ -181,11 +184,25 @@
         }
     })
 
-    const minWeightRule = () => 
-        withMessage(
+    const minWeightRule = () => {
+        return withMessage(
             value => Number(value) >= someNumber.value && someCondition.value === true,
             t('no_good', { name: someNumber.value })
         )
+    }
+
+    // Test index & argument
+    const extraWeightRule = (myArg: string, index: number) => {
+        return withMessage(
+            withParams(value => {
+                return myArg === 'weight banana'
+                    && Number(value) > 1
+                    && someCondition.value === false
+            }, [someCondition]),
+            t('totally_not_good', { name: myArg + index })
+        )
+    }
+        
 
     const rules = computed(() => {
         return {
@@ -194,24 +211,26 @@
                 minLength: applyIf(someCondition, minLength(5))
             },
             shipmentItems: {
-                $each: {
+                $each: (_, index) => ({
                     name: {
-                        minWeight: minWeightRule(),
                         required: applyIf(someCondition, required),
                         minLength: applyIf(someCondition, minLength(3))
                     },
                     quantity: {
-                        minValue: minValue(1)
+                        minValue: minValue(1),
+                        extraWeightRule: extraWeightRule('quantity banana', index)
                     },
                     weight: {
-                        required
+                        required,
+                        minWeight: minWeightRule(),
+                        extraWeightRule: extraWeightRule('weight banana', index)
                     }
-                }
+                })
             }
         }
     })
 
-    const { r$ } = useRegle(form, rules, { externalErrors, autoDirty: false  })
+    const { r$ } = useRegle(form, rules, { externalErrors, autoDirty: true  })
 
     const toggleLocale = () => {
         setLocale(locale.value === 'en' ? locale.value = 'es' : locale.value = 'en')
@@ -226,7 +245,7 @@
     }
 
     const validateForm = async () => {
-        const result = await r$.$parse()
+        const result = await r$.$validate()
 
         console.log('Form is valid?', result)
     }
