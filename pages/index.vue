@@ -13,18 +13,19 @@
 [x] Dynamic, custom error messages
     with i18n, (minWeight example)
     from LiPO.
-[ ] No frontend rule, only backend
+[x] No frontend rule, only backend
     rule (does it work?) (!)
 [x] Easy, custom rules with custom
     message
 [x] Get dirty fields
 [x] Collections
 [ ] Live, lazy validation (validate
-    does not work at all)
-[ ] Resetting validation
-    (BE errors dont get added after
-    reset + validate)
+    does not work at all, now vali-
+    date works on 2nd click)
+[x] Resetting validation
 [ ] Clear backend validation
+    (both wih $clear() and the auto
+    one. Test both.)
 [ ] Trigger validation for
     individual fields.
 [ ] touch() and touched, also check
@@ -37,14 +38,14 @@
     fields in validation rule.
 [ ] Swap all rules with another
     set of rules.
-[ ] Backend message appears on first
+[x] Backend message appears on first
     validation() call. But if we
     call reset and then validate()
     again, the backend message
     does not show up.
-[ ] Rule function pass arguments.
-[ ] Clear BE errors on change.
-[ ] $each: (_, index) any type!?
+[x] Rule function pass arguments.
+[x] Clear BE errors on change.
+[x] $each: (_, index) any type!?
             </pre>
         </div>
 
