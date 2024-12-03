@@ -110,7 +110,11 @@
 
             <!-- Action Buttons -->
             <button @click="save" class="bg-blue-500 text-white px-10 py-3 rounded mt-6 hover:bg-blue-600 transition">
-                Save
+                {{ isSaving ? 'Saving...' : 'Save' }}
+            </button>
+
+            <button @click="fillFormWithValidValues" class="ml-2 bg-gray-500 text-white px-10 py-3 rounded mt-6 hover:bg-gray-600 transition">
+                Fill Form
             </button>
 
             <button @click="someCondition = !someCondition" class="ml-2 bg-gray-500 text-white px-10 py-3 rounded mt-6 hover:bg-gray-600 transition">
@@ -146,6 +150,7 @@
 
     const { t, locale, setLocale } = useI18n()
 
+    const isSaving = ref(false)
     const someCondition = ref(true)
     const someNumber = ref(4)
 
@@ -231,10 +236,29 @@
         console.log(r$.$extractDirtyFields())
     }
 
-    const save = async () => {
-        const result = await r$.$validate()
+    const scrollToErrors = async () => {
+        await nextTick()
 
-        console.log('result of client-side validation: ', result)
+        setTimeout(() => {
+            const firstErrorElement = document.querySelector('.field-error')
+            
+            if (firstErrorElement) {
+                window.scrollTo({ top: firstErrorElement?.getBoundingClientRect().top + 100, behavior: 'smooth' })
+            }
+        }, 100)
+    }
+
+    const save = async () => {
+        const { result } = await r$.$validate()
+
+        if (!result) {
+            scrollToErrors()
+            return
+        }
+
+        isSaving.value = true
+
+        await new Promise(resolve => setTimeout(resolve, 1000))
 
         externalErrors.value = {
             referenceNumber: ['Backend says reference number is invalid'],
@@ -246,9 +270,28 @@
                 ],
             }
         }
+
+        isSaving.value = false
+
+        scrollToErrors()
     }
 
     const resetValidation = () => {
         r$.$reset()
+    }
+
+    const fillFormWithValidValues = () => {
+        resetValidation()
+
+        someCondition.value = false
+
+        form.value.referenceNumber = '123'
+        form.value.shipmentItems[0].name = 'Banana'
+        form.value.shipmentItems[0].quantity = 223
+        form.value.shipmentItems[0].weight = 33
+
+        form.value.shipmentItems[1].name = 'Apple'
+        form.value.shipmentItems[1].quantity = 36
+        form.value.shipmentItems[1].weight = 4
     }
 </script>

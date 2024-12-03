@@ -1,6 +1,6 @@
 <template>
     <ul class="text-xs text-red-700">
-        <li v-for="error of props.errors" :key='error'>
+        <li v-for="error of props.errors" :key="error" class="field-error">
             {{ error }}
         </li>
     </ul>
