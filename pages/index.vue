@@ -9,6 +9,7 @@
 [ ] Backend validation, rule
     parsing (!) - (backend errors
     dont get added)
+[ ] Deeply nested objects, arrays
 [x] Conditional rules
 [x] Dynamic, custom error messages
     with i18n, (minWeight example)
