@@ -235,12 +235,18 @@
         setLocale(locale.value === 'en' ? locale.value = 'es' : locale.value = 'en')
     }
 
-    const addShipmentItem = () => {
+    const addShipmentItem = async () => {
         form.value.shipmentItems.push({ name: '', quantity: 1, weight: '' })
+
+        await nextTick()
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'instant' })
     }
 
-    const removeLastShipmentItem = () => {
+    const removeLastShipmentItem = async () => {
         form.value.shipmentItems.splice(form.value.shipmentItems.length - 1, 1)
+        
+        await nextTick()
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'instant' })
     }
 
     const getDirtyFields = () => {
