@@ -137,6 +137,10 @@
                 Add Shipment Item
             </button>
 
+            <button @click="removeLastShipmentItem" class="ml-2 bg-gray-500 text-white px-10 py-3 rounded mt-6 hover:bg-gray-600 transition">
+                Remove Shipment Item
+            </button>
+
             <button @click="resetValidation" class="ml-2 bg-gray-500 text-white px-10 py-3 rounded mt-6 hover:bg-gray-600 transition">
                 Reset Validation
             </button>
@@ -183,7 +187,10 @@
 
     const minWeightRule = () => {
         return withMessage(
-            value => Number(value) >= someNumber.value && someCondition.value === false,
+            withParams(value => {
+                return Number(value) >= someNumber.value
+                    && someCondition.value === false
+            }, [someCondition]),
             t('no_good', { name: someNumber.value })
         )
     }
@@ -222,7 +229,7 @@
         } satisfies RegleComputedRules<typeof form>
     })
 
-    const { r$ } = useRegle(form, rules, { externalErrors, autoDirty: true  })
+    const { r$ } = useRegle(form, rules, { externalErrors, autoDirty: true, clearExternalErrorsOnChange: true  })
 
     const toggleLocale = () => {
         setLocale(locale.value === 'en' ? locale.value = 'es' : locale.value = 'en')
@@ -230,6 +237,10 @@
 
     const addShipmentItem = () => {
         form.value.shipmentItems.push({ name: '', quantity: 1, weight: '' })
+    }
+
+    const removeLastShipmentItem = () => {
+        form.value.shipmentItems.splice(form.value.shipmentItems.length - 1, 1)
     }
 
     const getDirtyFields = () => {
