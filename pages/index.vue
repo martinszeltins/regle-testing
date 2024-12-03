@@ -241,7 +241,7 @@
 
         setTimeout(() => {
             const firstErrorElement = document.querySelector('.field-error')
-            
+
             if (firstErrorElement) {
                 window.scrollTo({ top: firstErrorElement?.getBoundingClientRect().top + 100, behavior: 'smooth' })
             }
@@ -258,7 +258,7 @@
 
         isSaving.value = true
 
-        await new Promise(resolve => setTimeout(resolve, 1000))
+        await new Promise(resolve => setTimeout(resolve, 500))
 
         externalErrors.value = {
             referenceNumber: ['Backend says reference number is invalid'],
