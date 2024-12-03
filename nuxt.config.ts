@@ -6,7 +6,7 @@ export default defineNuxtConfig({
   app: {
     head: {
         bodyAttrs: {
-            style: 'background-color: #f0f0f0;'
+            style: 'background-color: #1a202c; color: #e2e8f0;',
         }
     }
   },
