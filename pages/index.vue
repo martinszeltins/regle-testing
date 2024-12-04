@@ -192,7 +192,7 @@
             withParams(value => {
                 return Number(value) >= someNumber.value
                     && someCondition.value === false
-            }, [someCondition]),
+            }, [someCondition, someNumber]),
             t('no_good', { name: someNumber.value })
         )
     }

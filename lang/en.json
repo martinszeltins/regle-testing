@@ -3,6 +3,6 @@
     "sign_in": "Sign In",
     "e_mail": "E-mail",
     "password": "Password",
-    "no_good": "No good!!!!!!!!!!!, {name}",
+    "no_good": "No Good. someNumber: , {name}",
     "totally_not_good": "TOTALLY not good..., {name}"
 }

@@ -8,12 +8,13 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "cleanup": "nuxt cleanup",
+    "prepare": "nuxt prepare",
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
     "@nuxtjs/tailwindcss": "^6.12.2",
-    "@regle/core": "0.2.10",
-    "@regle/rules": "0.2.10",
+    "@regle/core": "0.2.11",
+    "@regle/rules": "0.2.11",
     "@vueuse/core": "^11.3.0",
     "@vueuse/nuxt": "^11.3.0",
     "nuxt": "^3.14.1592",
