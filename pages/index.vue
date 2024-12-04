@@ -193,7 +193,7 @@
                 return Number(value) >= someNumber.value
                     && someCondition.value === false
             }, [someCondition, someNumber]),
-            t('no_good', { name: someNumber.value })
+            () => t('no_good', { name: someNumber.value })
         )
     }
 
@@ -204,7 +204,7 @@
                 return Number(value) > 1
                     && someCondition.value === false
             }, [someCondition]),
-            t('totally_not_good', { name: myArg + index })
+            () => t('totally_not_good', { name: myArg + index })
         )
     }
         
