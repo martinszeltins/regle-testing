@@ -146,13 +146,18 @@
             <button @click="resetValidation" class="ml-2 bg-gray-600 text-gray-200 px-10 py-3 rounded mt-6 hover:bg-gray-700 hover:active:bg-gray-900 transition">
                 Reset Validation
             </button>
+
+            <button @click="resetFormValuesToDefault" class="ml-2 bg-gray-600 text-gray-200 px-10 py-3 rounded mt-6 hover:bg-gray-700 hover:active:bg-gray-900 transition">
+                Reset Form Values
+            </button>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
-    import { required, minLength, minValue, applyIf, withMessage, withParams } from '@regle/rules'
-    import { defineRegleConfig, type RegleComputedRules, type RegleExternalErrorTree } from '@regle/core'
+    import { faker } from '@faker-js/faker'
+    import { required, minLength, minValue, applyIf } from '@regle/rules'
+    import { defineRegleConfig, createRule, type RegleComputedRules, type RegleExternalErrorTree, type Maybe } from '@regle/core'
 
     const { t, locale, setLocale } = useI18n()
 
@@ -177,6 +182,13 @@
         ]
     })
 
+    const resetFormValuesToDefault = () => {
+        form.value.referenceNumber = ''
+        form.value.shipmentItems = []
+        form.value.shipmentItems.push({ name: '', quantity: 0, weight: 0 })
+        form.value.shipmentItems.push({ name: '', quantity: 0, weight: 0 })
+    }
+
     const externalErrors = ref<RegleExternalErrorTree<Form>>({})
 
     const { useRegle } = defineRegleConfig({
@@ -187,27 +199,25 @@
         }
     })
 
-    const minWeightRule = () => {
-        return withMessage(
-            withParams(value => {
-                return Number(value) >= someNumber.value
-                    && someCondition.value === false
-            }, [someCondition, someNumber]),
-            () => t('no_good', { name: someNumber.value })
-        )
-    }
+    const minWeightRule = createRule({
+        validator(value: Maybe<number | string>, min: number, condition: boolean) {
+            return Number(value) >= min && condition === false
+        },
 
-    // Test index & argument
-    const extraWeightRule = (myArg: string, index: number) => {
-        return withMessage(
-            withParams(value => {
-                return Number(value) > 1
-                    && someCondition.value === false
-            }, [someCondition]),
-            () => t('totally_not_good', { name: myArg + index })
-        )
-    }
-        
+        message: (_, { $params: [min, condition] }) => {
+            return t('min_weight_message', { min: min, condition: condition.toString() })
+        }
+    })
+
+    const extraWeightRule = createRule({
+        validator(value: Maybe<number | string>, myArg: string, index: number) {
+            return Number(value) > 1 && index > 0 && myArg === 'weight banana'
+        },
+
+        message: (_, { $params: [myArg, index] }) => {
+            return t('extra_weight_message', { myArg, index })
+        }
+    })  
 
     const rules = computed(() => {
         return {
@@ -223,7 +233,7 @@
                     },
                     weight: {
                         required,
-                        minWeight: minWeightRule(),
+                        minWeight: minWeightRule(someNumber, someCondition),
                         extraWeightRule: extraWeightRule('weight banana', index)
                     }
                 })
@@ -284,9 +294,9 @@
             shipmentItems: {
                 $each: [
                     {
-                        name: ['Backend says shipmentItem[0].name is invalid'],
-                    },
-                ],
+                        name: ['Backend says shipmentItem[0].name is invalid']
+                    }
+                ]
             }
         }
 
@@ -302,15 +312,13 @@
     const fillFormWithValidValues = () => {
         resetValidation()
 
-        someCondition.value = false
+        form.value.referenceNumber = faker.number.int({ max: 99 }).toString()
+        form.value.shipmentItems[0].name = faker.food.fruit()
+        form.value.shipmentItems[0].quantity = faker.number.int({ max: 99 })
+        form.value.shipmentItems[0].weight = faker.number.int({ max: 99 })
 
-        form.value.referenceNumber = '123'
-        form.value.shipmentItems[0].name = 'Banana'
-        form.value.shipmentItems[0].quantity = 223
-        form.value.shipmentItems[0].weight = 33
-
-        form.value.shipmentItems[1].name = 'Apple'
-        form.value.shipmentItems[1].quantity = 36
-        form.value.shipmentItems[1].weight = 4
+        form.value.shipmentItems[1].name = faker.food.fruit()
+        form.value.shipmentItems[1].quantity = faker.number.int({ max: 99 })
+        form.value.shipmentItems[1].weight = faker.number.int({ max: 99 })
     }
 </script>

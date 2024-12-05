@@ -12,6 +12,7 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@nuxtjs/i18n": "8.5.2",
     "@nuxtjs/tailwindcss": "^6.12.2",
     "@regle/core": "0.2.11",
     "@regle/rules": "0.2.11",
@@ -19,7 +20,9 @@
     "@vueuse/nuxt": "^11.3.0",
     "nuxt": "^3.14.1592",
     "vue": "latest",
-    "vue-router": "latest",
-    "@nuxtjs/i18n": "8.5.2"
+    "vue-router": "latest"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^9.3.0"
   }
 }

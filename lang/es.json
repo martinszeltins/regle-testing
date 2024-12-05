@@ -3,6 +3,6 @@
     "sign_in": "Iniciar sesión",
     "e_mail": "Correo electrónico",
     "password": "Contraseña",
-    "no_good": "############# No buenooo!!!!!!!!!!!, {name}",
-    "totally_not_good": "TOTALLY not good..., {name}"
+    "min_weight_message": "value > min, condition = false: min: {min}, condition: {condition}",
+    "extra_weight_message": "value > 1, index > 0, myArg = weight banana: myArg: {myArg}, index: {index}"
 }
