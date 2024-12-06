@@ -36,7 +36,7 @@
     fields only.
 [x] easily get which fields are
     required so we can show *
-[ ] Test if we can access parent
+[x] Test if we can access parent
     fields in validation rule.
 [ ] Swap all rules with another
     set of rules.
