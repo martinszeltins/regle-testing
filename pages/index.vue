@@ -417,8 +417,10 @@
         form.value.shipmentItems[1].weight = faker.number.int({ max: 99 })
     }
 
-    const triggerManualValidationForField = () => {
-        r$.$fields.address.$validate()
+    const triggerManualValidationForField = async () => {
+        const result = await r$.$fields.address.$fields.cities.$each[0].$fields.cityName.$validate()
+
+        console.log('validation result: ', result)
     }
 
     const resetManualValidationForField = () => {
@@ -426,6 +428,6 @@
     }
 
     const touchFieldManually = () => {
-        r$.$fields.address.$fields.cities.$each[0].$fields.cityName.$touch()
+        r$.$fields.address.$touch()
     }
 </script>
