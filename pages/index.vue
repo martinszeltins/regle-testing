@@ -28,11 +28,11 @@
 [x] Clear backend validation
     (both wih $clear() and the auto
     one. Test both.)
-[ ] Trigger validation for
+[x] Trigger validation for
     individual fields.
-[ ] touch() and touched, also check
+[x] touch() and touched, also check
     for collections.
-[ ] reset validation for specific
+[x] reset validation for specific
     fields only.
 [x] easily get which fields are
     required so we can show *
