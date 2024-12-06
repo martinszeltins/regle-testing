@@ -287,6 +287,18 @@
         }
     })  
 
+    const customCityName = createRule({
+        validator(value: Maybe<string>, item: any) {
+            console.log('item: ', item)
+            return value === 'LA'
+        },
+
+        message: (_, { $params: [item] }) => {
+            const itemStringified = JSON.stringify(item)
+            return 'City name must be LA' + itemStringified
+        }
+    })  
+
     const rules = computed(() => {
         return {
             address: {
@@ -295,16 +307,17 @@
                     minLength: minLength(3)
                 },
                 cities: {
-                    $each: {
+                    $each: (item, index) => ({
                         cityName: {
                             required,
-                            minLength: minLength(3)
+                            minLength: minLength(index),
+                            customCityName: customCityName(item)
                         },
                         population: {
                             required,
-                            minValue: minValue(1)
+                            minValue: minValue(index)
                         }
-                    }
+                    })
                 }
             },
             shipmentItems: {
