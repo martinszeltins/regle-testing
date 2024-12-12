@@ -277,7 +277,7 @@
             return Number(value) >= min && condition === false
         },
 
-        message: (_, { $params: [min, condition] }) => {
+        message: ({ $params: [min, condition] }) => {
             return t('min_weight_message', { min: min, condition: condition.toString() })
         }
     })
@@ -287,7 +287,7 @@
             return Number(value) > 1
         },
 
-        message: (_, { $params: [myArg, index] }) => {
+        message: ({ $params: [myArg, index] }) => {
             return t('extra_weight_message', { myArg, index })
         }
     })  
@@ -298,7 +298,7 @@
             return value === 'LA'
         },
 
-        message: (_, { $params: [item] }) => {
+        message: ({ $params: [item] }) => {
             const itemStringified = JSON.stringify(item)
             return 'City name must be LA' + itemStringified
         }
