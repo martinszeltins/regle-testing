@@ -450,14 +450,11 @@
     const fillFormWithValidValues = () => {
         resetValidation()
 
-        form.value.referenceNumber = faker.number.int({ max: 99 }).toString()
-        form.value.shipmentItems[0].name = faker.food.fruit()
-        form.value.shipmentItems[0].quantity = faker.number.int({ max: 99 })
-        form.value.shipmentItems[0].weight = faker.number.int({ max: 99 })
-
-        form.value.shipmentItems[1].name = faker.food.fruit()
-        form.value.shipmentItems[1].quantity = faker.number.int({ max: 99 })
-        form.value.shipmentItems[1].weight = faker.number.int({ max: 99 })
+        form.value.shipmentItems.forEach(item => {
+            item.name = faker.food.fruit()
+            item.quantity = faker.number.int({ max: 99 })
+            item.weight = faker.number.int({ max: 99 })
+        })
     }
 
     const triggerManualValidationForField = async () => {
@@ -471,7 +468,7 @@
     }
 
     const touchFieldManually = () => {
-        r$.$fields.address.$touch()
+        r$.$fields.address.$fields.cities.$each[0].$fields.cityName.$touch()
     }
 
     const toggleActiveRules = () => {
