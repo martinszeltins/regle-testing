@@ -157,6 +157,10 @@
                 {{ isSaving ? 'Saving...' : 'Save' }}
             </button>
 
+            <button @click="toggleActiveRules" class="ml-2 bg-gray-600 text-gray-200 px-10 py-3 rounded mt-6 hover:bg-gray-700 hover:active:bg-gray-900 transition">
+                Toggle active rules <i>({{ activeRules }})</i>
+            </button>
+
             <button @click="fillFormWithValidValues" class="ml-2 bg-gray-600 text-gray-200 px-10 py-3 rounded mt-6 hover:bg-gray-700 hover:active:bg-gray-900 transition">
                 Fill Form
             </button>
@@ -218,6 +222,7 @@
     const isSaving = ref(false)
     const someCondition = ref(true)
     const someNumber = ref(4)
+    const activeRules = ref('rules1')
 
     interface Form {
         referenceNumber: string
@@ -299,7 +304,7 @@
         }
     })  
 
-    const rules = computed(() => {
+    const rules1 = computed(() => {
         return {
             address: {
                 street: {
@@ -338,6 +343,31 @@
                 })
             }
         } satisfies RegleComputedRules<typeof form>
+    })
+
+    const rules2 = computed(() => {
+        return {
+            address: {
+                street: {
+                    required,
+                },
+                cities: {
+                    $each: (item, index) => ({
+                        cityName: {
+                            required,
+                        },
+                    })
+                }
+            },
+        } satisfies RegleComputedRules<typeof form>
+    })
+
+    const rules = computed(() => {
+        if (activeRules.value === 'rules1') {
+            return rules1.value
+        } else {
+            return rules2.value
+        }
     })
 
     const { r$ } = useRegle(form, rules, { externalErrors, autoDirty: true, clearExternalErrorsOnChange: true  })
@@ -442,5 +472,11 @@
 
     const touchFieldManually = () => {
         r$.$fields.address.$touch()
+    }
+
+    const toggleActiveRules = () => {
+        activeRules.value = (activeRules.value === 'rules1')
+            ? 'rules2'
+            : 'rules1'
     }
 </script>
