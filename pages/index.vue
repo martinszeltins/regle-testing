@@ -38,7 +38,7 @@
     required so we can show *
 [x] Test if we can access parent
     fields in validation rule.
-[ ] Swap all rules with another
+[x] Swap all rules with another
     set of rules.
 [x] Backend message appears on first
     validation() call. But if we
