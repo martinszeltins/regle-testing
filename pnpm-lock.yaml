@@ -15,11 +15,11 @@ importers:
         specifier: ^6.12.2
         version: 6.12.2(magicast@0.3.5)(rollup@4.27.4)
       '@regle/core':
-        specifier: 0.4.0
-        version: 0.4.0(vue@3.5.13(typescript@5.7.2))
+        specifier: 0.4.1
+        version: 0.4.1(vue@3.5.13(typescript@5.7.2))
       '@regle/rules':
-        specifier: 0.4.0
-        version: 0.4.0(vue@3.5.13(typescript@5.7.2))
+        specifier: 0.4.1
+        version: 0.4.1(vue@3.5.13(typescript@5.7.2))
       '@vueuse/core':
         specifier: ^11.3.0
         version: 11.3.0(vue@3.5.13(typescript@5.7.2))
@@ -765,13 +765,13 @@ packages:
     resolution: {integrity: sha512-B9ewI0KVC1yqyeoQzErVnV4kdnxaYfwRMctxk/YwJxZZc/nVZ3VOVE+r2kXIFaGbUgc4ZHFn+aE2qvzCRXTXHw==}
     engines: {node: '>=14.19.0', npm: '>=7.0.0'}
 
-  '@regle/core@0.4.0':
-    resolution: {integrity: sha512-xGD877+PCgUA8IFL5HaIgD3xJMOxNFw8OXB7CWWxtos4hbOPDll4df62r2ttkWBqxVb/pgzOPK1nzPhpiLGADA==}
+  '@regle/core@0.4.1':
+    resolution: {integrity: sha512-wJahOvHJ47WHPeXtPaD9imempJWKP3G5b3Va+1oowjqeMaOKvdQevyBYG0nkDqTRQeyitnhEZF157XYICJKgIQ==}
     peerDependencies:
       vue: ^3.1.0
 
-  '@regle/rules@0.4.0':
-    resolution: {integrity: sha512-LMIwQvNW5H5t+LpS8kcbk4Y+TiI0DrmWYYPCeFPLDLRZ3JHDMkduM1bPtOx3y19aRCbyLY9d7gqgbf4OkfTBLA==}
+  '@regle/rules@0.4.1':
+    resolution: {integrity: sha512-Ba/YJ78pMeRG/LZaQ4JQyM1gRtSbmVE/BM2hovAKQcAIxRRsWGgYk/fxNMBe7At5J5N6C3xEpxXzDDonpweFjA==}
 
   '@rollup/plugin-alias@5.1.1':
     resolution: {integrity: sha512-PR9zDb+rOzkRb2VD+EuKB7UC41vU5DIwZ5qqCpk0KJudcWAyi8rvYOhS7+L5aZCspw1stTViLgN5v6FF1p5cgQ==}
@@ -4427,13 +4427,13 @@ snapshots:
       - encoding
       - supports-color
 
-  '@regle/core@0.4.0(vue@3.5.13(typescript@5.7.2))':
+  '@regle/core@0.4.1(vue@3.5.13(typescript@5.7.2))':
     dependencies:
       vue: 3.5.13(typescript@5.7.2)
 
-  '@regle/rules@0.4.0(vue@3.5.13(typescript@5.7.2))':
+  '@regle/rules@0.4.1(vue@3.5.13(typescript@5.7.2))':
     dependencies:
-      '@regle/core': 0.4.0(vue@3.5.13(typescript@5.7.2))
+      '@regle/core': 0.4.1(vue@3.5.13(typescript@5.7.2))
     transitivePeerDependencies:
       - vue
 
